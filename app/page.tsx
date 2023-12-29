@@ -1,23 +1,49 @@
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 export default async function Index() {
-  const cookieStore = cookies()
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	let isSupabaseInit = true;
 
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient(cookieStore)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
+	const {
+		data: { session },
+	} = await supabase.auth.getSession();
 
-  const isSupabaseConnected = canInitSupabaseClient()
+	const { data, error } = await supabase.from('blogs').select('*');
 
-  return (
-    <div>Hello {isSupabaseConnected ? "Bro" : ", Found Error"}</div>
-  )
+	if (error || !data.length) isSupabaseInit = false;
+
+	return (
+		<>
+			<div>Hello {isSupabaseInit ? 'Bro' : ', Found an error'}</div>
+			{session ? (
+				'Logged in'
+			) : (
+				<Link href='/login' className='hover:underline'>
+					Login Now
+				</Link>
+			)}
+			<br />
+			{session ? (
+				<Link className='hover:underline' prefetch={false} href='/admin'>
+					Admin panel
+				</Link>
+			) : (
+				''
+			)}
+			{isSupabaseInit
+				? data?.map((blog: Blog) => (
+						<Link
+							href={`/blog/${blog.slug}`}
+							className='hover:underline'
+							prefetch={false}
+							key={blog.id}>
+							{blog.title}
+						</Link>
+				  ))
+				: 'No blogs found'}
+		</>
+	);
 }

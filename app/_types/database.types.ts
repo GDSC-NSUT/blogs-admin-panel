@@ -15,6 +15,7 @@ export interface Database {
           created_at: string
           created_by: string
           id: number
+          slug: string | null
           title: string
         }
         Insert: {
@@ -22,6 +23,7 @@ export interface Database {
           created_at?: string
           created_by: string
           id?: number
+          slug?: string | null
           title: string
         }
         Update: {
@@ -29,6 +31,7 @@ export interface Database {
           created_at?: string
           created_by?: string
           id?: number
+          slug?: string | null
           title?: string
         }
         Relationships: [
@@ -44,27 +47,24 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
-          full_name: string | null
+          email: string | null
           id: string
           updated_at: string | null
           username: string | null
-          website: string | null
         }
         Insert: {
           avatar_url?: string | null
-          full_name?: string | null
+          email?: string | null
           id: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Update: {
           avatar_url?: string | null
-          full_name?: string | null
+          email?: string | null
           id?: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Relationships: [
           {
