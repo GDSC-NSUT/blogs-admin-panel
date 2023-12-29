@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-module.exports = nextConfig
+const removeImports = require('next-remove-imports')();
+module.exports = removeImports({
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "wrfwbnoxcszcsmoxwhrn.supabase.co",
+                port: '',
+                pathname: '/**',
+            }
+        ]
+    }
+});
