@@ -27,7 +27,10 @@ export default async function Index() {
 			)}
 			<br />
 			{session ? (
-				<Link className='hover:underline' prefetch={false} href='/admin'>
+				<Link
+					className='hover:underline'
+					prefetch={false}
+					href='/admin'>
 					Admin panel
 				</Link>
 			) : (
@@ -35,13 +38,9 @@ export default async function Index() {
 			)}
 			{isSupabaseInit
 				? data?.map((blog: Blog) => (
-						<Link
-							href={`/blog/${blog.slug}`}
-							className='hover:underline'
-							prefetch={false}
-							key={blog.id}>
+						<div className='hover:underline' key={blog.id}>
 							{blog.title}
-						</Link>
+						</div>
 				  ))
 				: 'No blogs found'}
 		</>

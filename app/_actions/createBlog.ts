@@ -2,21 +2,32 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
-import slugify from 'react-slugify';
+import { BlogContentType } from '../(admin)/admin/create-blog/Client';
+import { notFound, redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export default async function createBlog(
-	title: string,
-	content: string,
-	created_by: string
+	blogData: BlogContentType,
+	formdata: FormData
 ) {
+	const title = blogData.title;
+	const content = blogData.content;
+	// const created_by = 
+	const slug = blogData.slug;
+	const author = blogData.author;
+	const tagsArr = blogData.tagsArr;
+	const coverImage = blogData.coverImage;
 	const cookiestore = cookies();
 	const supabase = createClient(cookiestore);
 	const { error } = await supabase.from('blogs').insert({
 		title,
 		content,
-		created_by,
-		slug: slugify(title),
+		// created_by,
+		slug,
+		author,
+		tagsArr,
+		cover_image: coverImage
 	});
-	if (error) return { error: error.message };
-	else return { error: null };
+	if (error) redirect(`/admin?error=${error.message}`)
+	redirect('/admin/list-blogs'); 
 }

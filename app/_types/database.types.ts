@@ -11,27 +11,36 @@ export interface Database {
     Tables: {
       blogs: {
         Row: {
+          author: string
           content: string
+          cover_image: string | null
           created_at: string
           created_by: string
           id: number
-          slug: string | null
+          slug: string
+          tagsArr: string[]
           title: string
         }
         Insert: {
+          author?: string
           content: string
-          created_at?: string
-          created_by: string
-          id?: number
-          slug?: string | null
-          title: string
-        }
-        Update: {
-          content?: string
+          cover_image?: string | null
           created_at?: string
           created_by?: string
           id?: number
-          slug?: string | null
+          slug: string
+          tagsArr?: string[]
+          title: string
+        }
+        Update: {
+          author?: string
+          content?: string
+          cover_image?: string | null
+          created_at?: string
+          created_by?: string
+          id?: number
+          slug?: string
+          tagsArr?: string[]
           title?: string
         }
         Relationships: [
@@ -49,6 +58,7 @@ export interface Database {
           avatar_url: string | null
           email: string | null
           id: string
+          name: string
           updated_at: string | null
           username: string | null
         }
@@ -56,6 +66,7 @@ export interface Database {
           avatar_url?: string | null
           email?: string | null
           id: string
+          name?: string
           updated_at?: string | null
           username?: string | null
         }
@@ -63,25 +74,30 @@ export interface Database {
           avatar_url?: string | null
           email?: string | null
           id?: string
+          name?: string
           updated_at?: string | null
           username?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_avatar: {
+        Args: {
+          avatar_url: string
+        }
+        Returns: Record<string, unknown>
+      }
+      delete_storage_object: {
+        Args: {
+          bucket: string
+          object: string
+        }
+        Returns: Record<string, unknown>
+      }
     }
     Enums: {
       [_ in never]: never

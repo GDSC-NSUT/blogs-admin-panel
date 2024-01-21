@@ -1,9 +1,11 @@
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
+"use client"
+
 import { ArrowLeftCircle } from 'lucide-react';
 import Link from 'next/link';
 import loginUser from '../_actions/loginUser';
-import SubmitButton from './SubmitButton';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useFormStatus } from 'react-dom';
 
 export default function Login({
 	searchParams,
@@ -52,4 +54,9 @@ export default function Login({
 			</form>
 		</div>
 	);
+}
+
+function SubmitButton() {
+    const {pending} = useFormStatus();
+    return <Button variant="default" className='mt-2 w-full' type="submit" disabled={pending} aria-disabled={pending}>Sign In</Button>;
 }
