@@ -71,7 +71,7 @@ const QuillEditor = ({
 
     useEffect(() => {
         if (value) {
-            console.log("value is ", value);
+            // console.log("value is ", value);
             setBlogData({ ...blogData, content: value });
         }
     }, [value]);
@@ -104,9 +104,9 @@ const QuillEditor = ({
         }
     };
 
-    useEffect(() => {
-        console.log("blogData is ", blogData);
-    }, [blogData]);
+    // useEffect(() => {
+    //     console.log("blogData is ", blogData);
+    // }, [blogData]);
     return (
         <form
             action={formAction}
@@ -193,7 +193,7 @@ const QuillEditor = ({
                         </Button>
                     </div>
                     <div className="p-1 flex flex-wrap">
-                        {blogData?.tagsArr.map((tag, index) => (
+                        {blogData?.tagsArr?.map((tag, index) => (
                             <Button
                                 key={index}
                                 type="button"
@@ -266,7 +266,7 @@ function SubmitButton({ loading }: { loading: boolean }) {
             className="p-10 w-full font-bold text-2xl "
             disabled={pending || loading}
         >
-            Submit Blog
+            Update Blog
         </Button>
     );
 }

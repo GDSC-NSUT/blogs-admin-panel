@@ -5,16 +5,20 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
     const cookiestore = cookies();
     const supabase = createClient(cookiestore);
-    const {data, error} = await supabase.from("blogs").select("*");
+    const { data, error } = await supabase.from("blogs").select("*");
     if (error) return NextResponse.error();
-    const blogs = [data.map((blog: Blog) => {
-        return {
-            id: blog.id,
-            slug: blog.slug,
-            title: blog.title,
-            content: blog.content,
-            created_by: blog.created_by 
-        }
-    })]
+    const blogs = [
+        data.map((blog: Blog) => {
+            return {
+                id: blog.id,
+                slug: blog.slug,
+                title: blog.title,
+                content: blog.content,
+                created_by: blog.created_by,
+                author: blog.created_by,
+                // please add tagsArr field also
+            };
+        }),
+    ];
     return NextResponse.json(blogs);
 }

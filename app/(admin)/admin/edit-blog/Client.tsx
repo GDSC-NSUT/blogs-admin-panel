@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Session } from "@supabase/supabase-js";
 import "react-quill/dist/quill.snow.css";
 import QuillEditor from "./QuillEditor";
+import { useSearchParams } from "next/navigation";
 
 export type BlogContentType = {
     title: string;
@@ -21,6 +22,8 @@ export default function CreateBlogComponent({
     session: Session;
     author: string;
 }) {
+    const [allBlogs, setAllBlogs] = useState<BlogContentType[]>([]);
+    const [blogId, setBlogId] = useState<string>("");
     const [value, setValue] = useState<string | undefined>(
         "Write something awesome..."
     );
@@ -35,11 +38,60 @@ export default function CreateBlogComponent({
         slug: "",
     });
 
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const id = searchParams.get("id");
+        if (id) {
+            setBlogId(id);
+        }
+    }, [searchParams]);
+
     useEffect(() => {
         if (value) {
             setBlogData({ ...blogData, content: value });
         }
     }, [value]);
+
+    // ************************************************
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/get-all-blogs");
+                const data = await response.json();
+
+                // console.log("data in edit blog", data[0]);
+
+                setAllBlogs(data[0]);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+    useEffect(() => {
+        if (blogId && allBlogs.length > 0) {
+            const currentBlog = allBlogs.find((blog: any) => {
+                return blog?.id == blogId;
+            });
+            // console.log("currentBlog", currentBlog);
+
+            if (currentBlog) {
+                setValue(currentBlog.content);
+                setBlogData({
+                    title: currentBlog.title,
+                    content: currentBlog.content,
+                    tagsArr: currentBlog.tagsArr,
+                    cover_image: currentBlog.cover_image || "",
+                    author: currentBlog.author,
+                    slug: currentBlog.slug,
+                });
+            }
+        }
+    }, [blogId, allBlogs]);
+
+    // ************************************************
 
     // if (typeof window === "undefined") return null;
 
