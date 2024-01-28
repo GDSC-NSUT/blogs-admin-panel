@@ -81,7 +81,11 @@ const QuillEditor = ({
 		});
 	};
 
-	const formAction = editBlog.bind(null, blogData, id);
+	const formAction = editBlog.bind(
+		null,
+		{ ...blogData, content: blogData.content || '' }, // Ensure content is defined
+		id
+	);
 
 	const handleChange: ChangeEventHandler<HTMLInputElement> = async event => {
 		try {
