@@ -14,7 +14,7 @@ const Page = async ({ params }: { params: { blogid: string } }) => {
 		.select('*')
 		.eq('id', params.blogid)
 		.single();
-	if (data == null) return <div>Some Error</div>;
+	if (data == null || session === null) return <div>Some Error</div>;
 	if (session.user.id != data.created_by) notFound();
 	return <CreateBlogComponent blog={data} />;
 };
