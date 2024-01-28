@@ -15,7 +15,9 @@ export async function middleware(request: NextRequest) {
 		} = await supabase.auth.getSession();
 		if (error) throw new Error(error.message);
 		if (!session && request.nextUrl.pathname.startsWith('/admin'))
-			return NextResponse.redirect(new URL('/login', request.url));
+			return NextResponse.redirect(
+				new URL('/login?message=Login To View This Route', request.url)
+			);
 		return response;
 	} catch (e) {
 		// If you are here, a Supabase client could not be created!

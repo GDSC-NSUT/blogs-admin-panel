@@ -16,11 +16,10 @@ import { Label } from '@/components/ui/label';
 import './Quill.css';
 import { Button } from '@/components/ui/button';
 import slugify from 'react-slugify';
-import createBlog from '@/app/_actions/createBlog';
+import editBlog from '@/app/_actions/editBlog';
 import { PlusIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import { useFormStatus } from 'react-dom';
-import DOMPurify from 'dompurify';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -29,6 +28,7 @@ type QuillEditorProps = {
 	setBlogData: Dispatch<SetStateAction<BlogContentType>>;
 	value: string | undefined;
 	setValue: Dispatch<SetStateAction<string | undefined>>;
+	id: number;
 };
 
 const QuillEditor = ({
@@ -36,6 +36,7 @@ const QuillEditor = ({
 	setBlogData,
 	value,
 	setValue,
+	id,
 }: QuillEditorProps) => {
 	const toolbarOptions = [
 		['bold', 'italic', 'underline', 'strike'],
@@ -47,8 +48,6 @@ const QuillEditor = ({
 		[{ direction: 'rtl' }],
 		[{ size: ['small', false, 'large', 'huge'] }],
 		[{ header: [1, 2, 3, 4, 5, 6, false] }],
-		// [{ color: [] }, { background: [] }],
-		// [{ font: [] }],
 		[{ align: [] }],
 		['clean'],
 	];
@@ -71,7 +70,6 @@ const QuillEditor = ({
 
 	useEffect(() => {
 		if (value) {
-			// console.log("value is ", value);
 			setBlogData({ ...blogData, content: value });
 		}
 	}, [value]);
@@ -83,7 +81,7 @@ const QuillEditor = ({
 		});
 	};
 
-	const formAction = createBlog.bind(null, blogData);
+	const formAction = editBlog.bind(null, blogData, id);
 
 	const handleChange: ChangeEventHandler<HTMLInputElement> = async event => {
 		try {
@@ -102,9 +100,6 @@ const QuillEditor = ({
 		}
 	};
 
-	// useEffect(() => {
-	//     console.log("blogData is ", blogData);
-	// }, [blogData]);
 	return (
 		<form
 			action={formAction}
@@ -189,7 +184,6 @@ const QuillEditor = ({
 							<Button
 								key={index}
 								type='button'
-								// className='border-[1px] px-2 mx-1 p-[2px] rounded-md border-indigo-400 text-blue-500'
 								variant='secondary'
 								onClick={() => {
 									handleRemoveTag(tag);

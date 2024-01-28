@@ -20,7 +20,6 @@ import createBlog from '@/app/_actions/createBlog';
 import { PlusIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import { useFormStatus } from 'react-dom';
-import DOMPurify from 'dompurify';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -47,8 +46,6 @@ const QuillEditor = ({
 		[{ direction: 'rtl' }],
 		[{ size: ['small', false, 'large', 'huge'] }],
 		[{ header: [1, 2, 3, 4, 5, 6, false] }],
-		// [{ color: [] }, { background: [] }],
-		// [{ font: [] }],
 		[{ align: [] }],
 		['clean'],
 	];

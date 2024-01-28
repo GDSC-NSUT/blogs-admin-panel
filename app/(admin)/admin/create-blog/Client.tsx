@@ -41,8 +41,6 @@ export default function CreateBlogComponent({
 		}
 	}, [value]);
 
-	// if (typeof window === "undefined") return null;
-
 	return (
 		<div className='w-full flex flex-col space-y-3 '>
 			<div>
@@ -53,23 +51,7 @@ export default function CreateBlogComponent({
 					value={value}
 					setValue={setValue}
 				/>
-
-				{/* <div>
-					{value && (
-						<div className='border   min-h-screen border-red-500   w-full ql-snow'>
-							<div
-								className='ql-editor bg-white text-gray-700'
-								dangerouslySetInnerHTML={{
-									// __html: DOMPurify.sanitize(richHtml),
-									__html: value,
-								}}></div>
-						</div>
-					)}
-				</div> */}
 			</div>
-			{/* <div className='col-span-1'>
-				<RightSidebar blogData={blogData} setBlogData={setBlogData} />
-			</div> */}
 		</div>
 	);
 }

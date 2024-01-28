@@ -10,22 +10,9 @@ export default async function Page() {
 	const { data, error } = await supabase.from('blogs').select('*');
 	if (error?.message || data == null) throw new Error(error.message);
 
-	// const newD = [
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// 	...data,
-	// ];
-
 	return (
 		<div className='container mx-auto py-10'>
 			<DataTable columns={columns} data={data} />
-			{/* <DataTable columns={columns} data={newD} /> */}
 		</div>
 	);
 }

@@ -1,24 +1,21 @@
 import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 import CreateBlogComponent from './Client';
+import { notFound } from 'next/navigation';
 
-const Page = async () => {
+const Page = async ({ params }: { params: { blogid: string } }) => {
 	const cookiestore = cookies();
 	const supabase = createClient(cookiestore);
 	const {
 		data: { session },
 	} = await supabase.auth.getSession();
-	if (!session)
-		redirect(
-			'/login?message=You must be logged in to view this route group'
-		);
 	const { data } = await supabase
-		.from('profiles')
+		.from('blogs')
 		.select('*')
-		.eq('id', session.user.id)
+		.eq('id', params.blogid)
 		.single();
 	if (data == null) return <div>Some Error</div>;
-	return <CreateBlogComponent session={session} author={data.name} />;
+	if (session.user.id != data.created_by) notFound();
+	return <CreateBlogComponent blog={data} />;
 };
 export default Page;

@@ -9,22 +9,18 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Spinner from '@/components/ui/spinner';
-import { CircleDashedIcon, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function DropMenu({ blog }: { blog: Blog }) {
 	const [loading, setLoading] = useState(false);
 	if (loading) return <Spinner />;
-	// const formAction = unpublish.bind(null, blog.id);
 	const handleSubmit = async (e: Event) => {
 		e.preventDefault();
 		setLoading(true);
-		// const { success, error } = await unpublish(blog.id);
-		// if (error != null)
-		// 	toast.error('Error', {
 
-		// 	});
 		const data = unpublish(blog.id);
 		toast.promise(data, {
 			loading: 'Loading...',
@@ -38,6 +34,13 @@ export default function DropMenu({ blog }: { blog: Blog }) {
 				setLoading(false);
 			},
 		});
+	};
+
+	const router = useRouter();
+	const editBlog = async (e: Event) => {
+		setLoading(true);
+		router.push(`/admin/edit-blog/${blog.id}`);
+		setLoading(false);
 	};
 
 	return (
@@ -54,8 +57,7 @@ export default function DropMenu({ blog }: { blog: Blog }) {
 					{blog.published ? 'Unpublish' : 'Publish'}
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>View customer</DropdownMenuItem>
-				<DropdownMenuItem>View payment details</DropdownMenuItem>
+				<DropdownMenuItem onSelect={editBlog}>Edit</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

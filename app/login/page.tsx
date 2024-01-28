@@ -1,17 +1,43 @@
 'use client';
 
-import { ArrowLeftCircle } from 'lucide-react';
-import Link from 'next/link';
 import loginUser from '../_actions/loginUser';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
+import { toast } from 'sonner';
+import { useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function Login({
 	searchParams,
 }: {
 	searchParams: { message: string };
 }) {
+	const router = useRouter();
+	useEffect(() => {
+		let toastId: string | number;
+		if (searchParams && searchParams.message) {
+			toastId = toast.error('Error', {
+				description: searchParams.message,
+				duration: 5000,
+			});
+		}
+
+		const checkLoggedIn = async () => {
+			const supabase = createClient();
+			const {
+				data: { session },
+			} = await supabase.auth.getSession();
+			if (JSON.stringify(session) != 'null') router.push('/admin');
+		};
+		checkLoggedIn();
+
+		return () => {
+			toast.dismiss(toastId);
+		};
+	}, [searchParams]);
+
 	return (
 		<div className='flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 relative'>
 			<form
@@ -40,17 +66,6 @@ export default function Login({
 						/>
 					</div>
 					<SubmitButton />
-					<Link href='/'>
-						<Button variant='outline' className='w-full mt-3 '>
-							<ArrowLeftCircle className='mr-2' />
-							Go Back
-						</Button>
-					</Link>
-					{searchParams?.message && (
-						<p className='mt-4 p-4 bg-foreground/10 text-foreground text-center border-2 rounded-xl border-red-500'>
-							{searchParams.message}
-						</p>
-					)}
 				</div>
 			</form>
 		</div>
