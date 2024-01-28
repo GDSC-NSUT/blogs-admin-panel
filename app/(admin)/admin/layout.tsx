@@ -9,6 +9,7 @@ export default async function Layout({ children }: PropsWithChildren) {
 	const {
 		data: { session },
 	} = await supabase.auth.getSession();
+	if (session === null) return <div>Some Error</div>;
 	return (
 		<div className='w-full min-h-screen'>
 			<Navbar session={session}>{children}</Navbar>
