@@ -10,9 +10,16 @@ const Page = async () => {
 		data: { session },
 	} = await supabase.auth.getSession();
 	if (!session)
-		redirect('/login?message=You must be logged in to view this route group');
-	const {data} = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
-	if(data == null) return <div>Some Error</div>;
+		redirect(
+			'/login?message=You must be logged in to view this route group'
+		);
+	const { data, error } = await supabase
+		.from('profiles')
+		.select('*')
+		.eq('id', session.user.id)
+		.single();
+	if (error) return <div>{error.message}</div>;
+	if (data == null) return <div>Some Error</div>;
 	return <CreateBlogComponent session={session} author={data.name} />;
 };
 export default Page;

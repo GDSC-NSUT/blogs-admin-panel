@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { ArrowLeftCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -42,7 +42,8 @@ export default function Login({
 					<SubmitButton />
 					<Link href='/'>
 						<Button variant='outline' className='w-full mt-3 '>
-							<ArrowLeftCircle className='mr-2' />Go Back
+							<ArrowLeftCircle className='mr-2' />
+							Go Back
 						</Button>
 					</Link>
 					{searchParams?.message && (
@@ -57,6 +58,15 @@ export default function Login({
 }
 
 function SubmitButton() {
-    const {pending} = useFormStatus();
-    return <Button variant="default" className='mt-2 w-full' type="submit" disabled={pending} aria-disabled={pending}>Sign In</Button>;
+	const { pending } = useFormStatus();
+	return (
+		<Button
+			variant='default'
+			className='mt-2 w-full'
+			type='submit'
+			disabled={pending}
+			aria-disabled={pending}>
+			Sign In
+		</Button>
+	);
 }

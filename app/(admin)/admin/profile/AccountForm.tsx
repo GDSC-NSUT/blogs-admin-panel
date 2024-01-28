@@ -135,11 +135,13 @@ export default function AccountForm({
 						<SubmitButton loading={loading} text='Update..' />
 					</div>
 				</form>
-				{!state?.success && state?.message ? <div className='w-full mt-3 p-2'>
-					<div className='w-full bg-red-500 p-3 font-bold max-w-[370px] rounded-lg'>
-						{state?.message}
+				{!state?.success && state?.message ? (
+					<div className='w-full mt-3 p-2'>
+						<div className='w-full bg-red-500 p-3 font-bold max-w-[370px] rounded-lg'>
+							{state?.message}
+						</div>
 					</div>
-				</div> : null}
+				) : null}
 			</CardContent>
 		</Card>
 	);

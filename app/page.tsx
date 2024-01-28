@@ -41,7 +41,7 @@ export default async function Index() {
 						<div className='hover:underline' key={blog.id}>
 							{blog.title}
 						</div>
-				  ))
+					))
 				: 'No blogs found'}
 		</>
 	);

@@ -8,7 +8,7 @@ export default async function accountFormSubmit(
 	formdata: FormData
 ) {
 	let username = formdata.get('username') as string;
-    let name = formdata.get('name') as string;
+	let name = formdata.get('name') as string;
 	let userId = formdata.get('id');
 	if (!userId || !username) throw new Error('Username or id not found');
 	const cookiestore = cookies();
@@ -17,7 +17,7 @@ export default async function accountFormSubmit(
 		.from('profiles')
 		.update({
 			username,
-            name
+			name,
 		})
 		.eq('id', userId);
 	if (error)

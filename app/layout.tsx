@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { GeistSans } from 'geist/font/sans';
 import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 const defaultUrl = process.env.VERCEL_URL
 	? `https://${process.env.VERCEL_URL}`
@@ -22,6 +23,7 @@ export default function RootLayout({
 		<html lang='en'>
 			<body
 				className={`${cn(GeistSans.className, 'antialiased', 'dark')}`}>
+				<Toaster />
 				<main className='min-h-screen flex flex-col items-center'>
 					<NextTopLoader color='red' />
 					{children}

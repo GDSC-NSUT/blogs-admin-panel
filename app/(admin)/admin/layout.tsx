@@ -11,7 +11,9 @@ export default async function Layout({ children }: PropsWithChildren) {
 		data: { session },
 	} = await supabase.auth.getSession();
 	if (!session)
-		redirect('/login?message=You must be logged in to view this route group');
+		redirect(
+			'/login?message=You must be logged in to view this route group'
+		);
 
 	return (
 		<div className='w-full min-h-screen'>
