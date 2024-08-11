@@ -25,6 +25,6 @@ export async function GET(req: NextRequest) {
 		if (error) throw new Error(error.message);
 		return NextResponse.json(data);
 	} else {
-        throw new Error("No id or slug found");
-    }
+		throw new Error('No id or slug found');
+	}
 }
